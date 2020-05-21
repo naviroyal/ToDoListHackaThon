@@ -1,0 +1,147 @@
+.new-entry-sheet {
+  position: fixed;
+  min-height: 18em;
+  background: white;
+  bottom: 0;
+  width: 100%;
+  left: 0;
+  /* height: 25%; */
+  border: 1px solid #e1e1e1;
+  box-shadow: 0 0px 2.5px rgba(0, 0, 0, 0.02), 0 0px 6px rgba(0, 0, 0, 0.028), 0 0px 11.3px rgba(0, 0, 0, 0.035), 0 0px 20.1px rgba(0, 0, 0, 0.042), 0 0px 37.6px rgba(0, 0, 0, 0.05), 0 0px 90px rgba(0, 0, 0, 0.07);
+  border-radius: 18px 18px 0px 0px;
+}
+.sheet-header {
+  display: flex;
+  padding: 1em;
+  justify-content: space-between;
+}
+.sheet-header .sheet-title .title {
+  font-size: 1.2em;
+  font-weight: 600;
+}
+.sheet-header .close-sheet-btn {
+  border: none;
+  background: none;
+}
+.sheet-header .close-sheet-btn .close-icon {
+  height: 2em;
+}
+.sheet-body {
+  padding: 0.5em;
+}
+.sheet-body .row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5em;
+  flex-wrap: wrap;
+}
+.sheet-body .row .task-select {
+  border: 1px solid #e1e1e1;
+  height: 2em;
+  width: 10em;
+  font-size: 1em;
+  padding: 0 0.5em;
+  border-radius: 4px;
+  margin-top: 0.5em;
+}
+.sheet-body .row .task-input, .sheet-body .row .time-input {
+  width: 50%;
+}
+.sheet-body .row .time-input-fields {
+  display: flex;
+  display: flex;
+  justify-content: space-around;
+  margin-top: 0.5em;
+}
+.sheet-body .row .hour-input, .sheet-body .row .minute-input {
+  border: 1px solid #e1e1e1;
+  height: 2em;
+  width: 3em;
+  font-size: 1em;
+  padding: 0 0.5em;
+  border-radius: 4px;
+  margin-right: 0.2em;
+}
+
+.task-type{
+  margin-left: 1.4em;
+}
+
+.task-status{
+  margin-left: 0.7em;
+}
+
+.remarks-margin{
+  margin-top: 1em;
+}
+
+.date-input{
+  border: 1px solid #e1e1e1;
+  height: 2em;
+  width: 9em;
+  font-size: 1em;
+  padding: 0 0.5em;
+  border-radius: 4px;
+  margin-right: 0.2em;
+  margin-left: 0.5em;
+  margin-top: 0.5em;
+  background-color: #e1e1e1;
+}
+
+
+.sheet-body .row .time-indicator {
+  font-weight: 500;
+}
+.sheet-body .row .remarks-input {
+  margin-top: 0.5em;
+  border: 1px solid #e1e1e1;
+  height: 2em;
+  /* width: 22em; */
+  font-size: 1em;
+  padding: 0 0.5em;
+  border-radius: 4px;
+  margin-right: 0.2em;
+}
+.sheet-footer {
+  padding: 0 1em;
+  margin: 0.5em;
+}
+.sheet-footer .action-group {
+  display: flex;
+  justify-content: flex-end;
+}
+
+
+.remarks-input{
+  width:22em;
+}
+
+
+@media screen and (max-width:514px) and (min-width:314px){
+  .date-input{
+    margin-left: 3.8em;
+  }
+
+  .task-type{
+
+    margin-left: 3.7em;
+  }
+
+  .task-status{
+    margin-left: 3em;
+  }
+}
+
+@media screen and (max-width:314px){
+  .date-input{
+    margin-left: 1.5em;
+  }
+
+}
+
+@media screen and (max-width:378px){
+  .remarks-input{
+    width:18em;
+  }
+
+}

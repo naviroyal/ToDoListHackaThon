@@ -1,0 +1,48 @@
+.task-list {
+  margin: 2em 0;
+  overflow: auto;
+  height: 100%;
+  padding: 0 1em;
+}
+.task-card {
+  display: flex;
+  justify-content: space-between;
+  padding: 1em;
+  border: 1px solid #e1e1e1;
+  border-radius: 4px;
+  background: white;
+  margin: 1em 0;
+  position: relative;
+}
+.task-card .task-title {
+  font-size: 1.5em;
+  font-weight: 700;
+}
+.task-card .task-time {
+  font-size: 1.5em;
+  font-weight: 300;
+}
+.task-card .remove-task-icon {
+  border: none;
+  height: 2em;
+  width: 2em;
+  border-radius: 50%;
+  position: absolute;
+  right: -1%;
+  top: -10%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  background: #e1e1e1;
+}
+.task-card .remove-task-icon .cross-icon {
+  height: 1.2em;
+}
+.task-card .task-remarks {
+  font-size: 1em;
+  font-weight: 300;
+  margin: 0.5em 0;
+  white-space: wrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
