@@ -75,3 +75,27 @@ def add_task():
             items.append(obj)
             response = jsonify(items)
         return response
+
+
+@app.route('/archived-tasks',methods=["GET"])
+def archived():
+    if request.method == "GET":
+        results = Tasks.get_archived()
+        items = []
+        response = None
+        for result in results:
+            obj = {
+                'id': result.id,
+                'task_header': result.task_header,
+                'task_description': result.task_description,
+                'task_type': result.task_type,
+                'task_priority': result.task_priority,
+                'task_points': result.task_points,
+                'task_status': result.task_status,
+                'task_is_archived': result.task_is_archived,
+                'task_due_date': result.task_due_date
+            }
+            items.append(obj)
+            response = jsonify(items)
+        return response
+
