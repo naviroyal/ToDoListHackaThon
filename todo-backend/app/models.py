@@ -23,7 +23,7 @@ class Tasks(db.Model):
 
     @staticmethod
     def get_active():
-        return Tasks.query.filter_by(task_is_archived=False).all()
+        return Tasks.query.filter_by(task_is_archived='f').all()
 
     @staticmethod
     def get_archived():

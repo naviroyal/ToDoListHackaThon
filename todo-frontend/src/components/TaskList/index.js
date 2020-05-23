@@ -18,7 +18,8 @@ export const TaskList = (props) => {
 
     return (
         <div className="task-list">
-            { entries.map((entry) => (
+            {
+            entries.map((entry) => (
                 <TaskCard entry={entry} onClose={()=>props.cardClose(entry.id)}/>
             ))}
             
@@ -39,11 +40,11 @@ const TaskCard = (props) => {
                 <img src={crossIcon} alt="close" className="cross-icon"/>
             </button>
             <div>
-                <div className="task-title">{task}</div>
+                <div className="task-title">{props.entry.task_header}</div>
                 <div className="remarks">
-                <p className="task-remarks">{remarks}</p></div>
+                <p className="task-remarks">{props.entry.task_description}</p></div>
             </div>
-            <div className="task-time">{`Due Date: ${duedate} Task Type: ${taskstatus}`}</div>
+            <div className="task-time">{`Due Date: ${duedate} Task Type: ${props.entry.task_status}`}</div>
         </div>
     );
 };

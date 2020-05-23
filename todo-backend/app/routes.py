@@ -1,3 +1,5 @@
+import json
+
 from flask import request, jsonify
 from app import app, db
 from app.models import Tasks
@@ -6,7 +8,7 @@ from app.models import Tasks
 @app.route('/')
 def test():
     """Serves functionality to test weather the server is working or not"""
-    return "server-working"
+    return app.send_static_file('index.html')
 
 
 @app.route('/sign-in', methods=["GET", "POST"])
@@ -32,10 +34,11 @@ def sign_in():
         # return render_template("public/sign_in.html")
 
 
-@app.route('/add-task', methods=["GET", "POST"])
+@app.route('/add-task', methods=["GET", "POST","PUT"])
 def add_task():
     if request.method == "POST":
         content = request.get_json()
+        # print(content);
         task_header = content['task_header']
         task_due_date = content['task_due_date']
         task_type = content['task_type']
@@ -43,20 +46,22 @@ def add_task():
         task_points = content['task_points']
         task_status = content['task_status']
         task_priority = content['task_priority']
+        task_is_archived = False
         new_task = Tasks(task_header=task_header,
                          task_due_date=task_due_date,
                          task_priority=task_priority,
                          task_description=task_description,
                          task_status=task_status,
                          task_points=task_points,
-                         task_type=task_type
+                         task_type=task_type,
+                         task_is_archived=task_is_archived
                          )
         db.session.add(new_task)
         db.session.commit()
 
         return "Success"
 
-    else:
+    elif request.method == "GET":
         results = Tasks.get_active()
         items = []
         response = None
@@ -74,4 +79,29 @@ def add_task():
             }
             items.append(obj)
             response = jsonify(items)
+        if response is None:
+            s='empty'
+            print(s)
+            return s
         return response
+
+    if request.method == "PUT":
+        content = request.get_json()
+        # print("successssss")
+        # print(content['id'])
+        data = Tasks.query.filter_by(id=content['id']).first()
+        # print(data)
+        data.task_is_archived = True
+        # new_task = Tasks(task_header=task_header,
+        #                  task_due_date=task_due_date,
+        #                  task_priority=task_priority,
+        #                  task_description=task_description,
+        #                  task_status=task_status,
+        #                  task_points=task_points,
+        #                  task_type=task_type,
+        #                  task_is_archived=task_is_archived
+        #                  )
+        # db.session.add(new_task)
+        db.session.commit()
+
+        return "Success put"

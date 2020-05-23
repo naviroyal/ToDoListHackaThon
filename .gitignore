@@ -25,3 +25,13 @@ yarn-error.log*
 yarn.lock
 
 .now
+
+
+.idea/
+__pycache__/
+venv*/
+env*
+.env
+.flaskenv
+*.pyc
+.coverage
