@@ -6,11 +6,13 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "material-ui": "^0.20.2",
     "moment": "^2.25.3",
     "react": "^16.13.1",
     "react-datepicker": "^2.16.0",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "semantic-ui-react": "^0.88.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -33,5 +35,5 @@
       "last 1 safari version"
     ]
   },
-   "proxy": "http://localhost:5000"
+  "proxy": "http://localhost:5000"
 }

@@ -249,7 +249,7 @@ const App = () => {
                 <div style={styles}></div>
             </section>
             <button onClick={getTaskEntries}>Refresh</button>
-            {  entries.length>0 ? (
+            {  entries.length > 0 ? (
                 <TaskList entries={entries} cardClose={(id)=>closeEntryCard(id)}/>
             ) : (
                 <p className="empty-text">No entries yet. Add a new entry by clicking the + button.</p>

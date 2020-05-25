@@ -87,21 +87,20 @@ def add_task():
 
     if request.method == "PUT":
         content = request.get_json()
-        # print("successssss")
-        # print(content['id'])
         data = Tasks.query.filter_by(id=content['id']).first()
-        # print(data)
         data.task_is_archived = True
-        # new_task = Tasks(task_header=task_header,
-        #                  task_due_date=task_due_date,
-        #                  task_priority=task_priority,
-        #                  task_description=task_description,
-        #                  task_status=task_status,
-        #                  task_points=task_points,
-        #                  task_type=task_type,
-        #                  task_is_archived=task_is_archived
-        #                  )
-        # db.session.add(new_task)
+        db.session.commit()
+
+        return "Success put"
+
+
+@app.route('/update-status', methods=["GET","PUT"])
+def update_status():
+    if request.method == "PUT":
+        content = request.get_json()
+        data = Tasks.query.filter_by(id=content['id']).first()
+        print(content['task_status'])
+        data.task_status = content['task_status']
         db.session.commit()
 
         return "Success put"
