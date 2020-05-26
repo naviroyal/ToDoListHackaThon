@@ -1,3 +1,5 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
+
 .app-container {
   padding: 0.5em;
   background: #f4f5f8;
@@ -19,7 +21,7 @@
 }
 .app-container .empty-text {
   font-weight: 300;
-  margin: 2em 0.5em;
+  margin: 1em 0.5em 2em 0.5em;
 }
 .progress-container {
   height: 0.5em;
@@ -29,4 +31,57 @@
 h1 {
   margin: 0.5em 0;
   color: #1286f1;
+}
+
+
+.refresh-btn{
+  float:right;
+  margin:2vh 2vh 0vh 2vh;
+  padding:1vh 1.5vh;
+  font-size: 1em;
+}
+
+.double-tap{
+  margin: 3vh 2vh 0vh 0vh;
+  font-size: 1.2em;
+  color: #ec0d0d;
+  font-weight: 400;
+}
+
+.refresh-btn-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+
+.task_type{
+  margin-left: 1.4em;
+}
+
+.task-select{
+  border: 1px solid #e1e1e1;
+  height: 2em;
+  width: 10em;
+  font-size: 1.2em;
+  padding: 0 0.5em;
+  border-radius: 4px;
+  margin-top: 1em;
+}
+
+.task-input{
+  /* display: flex;
+  flex-direction: row; */
+  /* margin:4vh 0vh 3vh 0vh;
+  padding:2vh 2.5vh; */
+}
+
+.filter{
+  margin-top: 3vh;
+  font-size: 1.3em;
+}
+
+.double-refresh-part{
+  display: flex;
+  flex-direction: row;
 }

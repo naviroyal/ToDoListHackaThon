@@ -16,6 +16,7 @@ import "react-datepicker/dist/react-datepicker.css";
 export const NewEntrySheet= (props) => {
     const [task, setTask] = React.useState(taskTypes[0]);
     const [taskstatus,setTaskStatus]=React.useState(taskStatus[0]);
+    
     // const [hours, setHours] = React.useState('');
     // const [minutes, setMinutes] = React.useState('');
     const [remarks,setRemarks] = React.useState('');

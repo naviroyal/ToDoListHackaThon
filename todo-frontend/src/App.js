@@ -8,11 +8,14 @@ import addIcon from './assets/plus-icon.svg';
 import { NewEntrySheet, IEntry } from './components/NewEntrySheet';
 import { TaskList } from './components/TaskList';
 import { storageKey } from './constants/constants';
+import {filter} from './constants/constants';
 import { get } from 'https';
+import { isNull } from 'util';
 
 const App = () => {
     const [isEntrySheetOpen, setIsEntrySheetOpen] = React.useState(false);
     const [entries,setEntries]=React.useState([]);
+    const [taskfilter, setTaskFilter] = React.useState(filter[0]);
     
     const openEntrySheet = () => {
         setIsEntrySheetOpen(true);
@@ -30,25 +33,46 @@ const App = () => {
         });
     };
 
+    const onTaskFilterChange = (event) => {
+        setTaskFilter(event.target.value);
+        
+    };
+
     const closeEntrySheet = () => {
         setIsEntrySheetOpen(false);
-        let url = 'http://localhost:5000/add-task';
-        fetch(url).then(res=>res.json()).then(data=>{
-            if(data!="empty")
-            {
-                setEntries(data);
-                setTask(data);
-            }
-            else{
-                setEntries([]);
-                setTask([]);
-            }
-        });
+        // let url = 'http://localhost:5000/add-task';
+        // fetch(url).then(res=>res.json()).then(data=>{
+        //     if(data!="empty")
+        //     {
+        //         setEntries(data);
+        //         setTask(data);
+        //     }
+        //     else{
+        //         setEntries([]);
+        //         setTask([]);
+        //     }
+        // });
     };
 
     const onAddEntry = (entry) => {
         // console.log(entry);
-        
+        let sheet={
+            task_header:entry.task,
+            task_due_date:entry.dueDate,
+            task_type : entry.task,
+            task_description : entry.remarks,
+            task_points : '10',
+            task_status : entry.taskstatus,
+            task_priority : entry.taskstatus
+        }
+        // if(entries.length>0)
+        // {
+            let entr=[...entries,sheet];
+            setEntries(entr);
+        // }
+        // else{
+        //     setEntries(sheet);
+        // }
         let url = 'http://localhost:5000/add-task';
         fetch(url,{
             method:"POST",
@@ -70,8 +94,34 @@ const App = () => {
             console.log('success');
         });
 
-        url = 'http://localhost:5000/add-task';
+        // url = 'http://localhost:5000/add-task';
+        // fetch(url).then(res=>res.json()).then(data=>{
+        //     if(data!="empty")
+        //     {
+        //         setEntries(data);
+        //         setTask(data);
+        //     }
+        //     else{
+        //         setEntries([]);
+        //         setTask([]);
+        //     }
+        // });
+        // const existingTasksString = window.localStorage.getItem(storageKey);
+        // if (existingTasksString) {
+        //     const existingTasks = JSON.parse(existingTasksString);
+        //     const newTasks = [...existingTasks, entry];
+        //      window.localStorage.setItem(storageKey, JSON.stringify(newTasks));
+        // } else {
+        //      window.localStorage.setItem(storageKey, JSON.stringify([entry]));
+        // }
+        closeEntrySheet();
+        
+    };
+    // const entries=[];
+    const getTaskEntries = () => {
+        let url = 'http://localhost:5000/add-task';
         fetch(url).then(res=>res.json()).then(data=>{
+            //  alert(data);
             if(data!="empty")
             {
                 setEntries(data);
@@ -81,34 +131,6 @@ const App = () => {
                 setEntries([]);
                 setTask([]);
             }
-        });
-        const existingTasksString = window.localStorage.getItem(storageKey);
-        if (existingTasksString) {
-            const existingTasks = JSON.parse(existingTasksString);
-            const newTasks = [...existingTasks, entry];
-             window.localStorage.setItem(storageKey, JSON.stringify(newTasks));
-        } else {
-             window.localStorage.setItem(storageKey, JSON.stringify([entry]));
-        }
-        closeEntrySheet();
-        
-    };
-    // const entries=[];
-    const getTaskEntries = () => {
-        let url = 'http://localhost:5000/add-task';
-        fetch(url).then(res=>res.json()).then(data=>{
-            //  alert(data);
-            if(entries.length==0)
-            {
-                setEntries([]);
-                setTask([]);
-                console.log('hullu')
-            }
-            else{
-                setEntries(data);
-                setTask(data);
-            }
-            
         });
         // let url = 'http://localhost:5000/add-task';
         // let result=fetch(url).then(res=>res.json()).then(data=>{
@@ -127,6 +149,17 @@ const App = () => {
     const closeEntryCard = (id) => {
         // console.log(entry.id);
         // console.log("asdfaf");
+        let tasks=entries;
+        for(let i=0;i<tasks.length;i++)
+        {
+            if(tasks[i].id==id)
+            {
+                index=i;
+                tasks.splice(index,1);
+                break;
+            }
+        }
+        setEntries(tasks);
         // let tasks=localStorage.getItem('tasks') ? JSON.parse(localStorage.getItem('tasks')||'{}') : [];
         // //Crossicon is working by refreshing the page or addding new stylesheet but by clicking on cross icon its value from local storage gets deleted
         // entries=task;
@@ -146,7 +179,7 @@ const App = () => {
             console.log('success');
         });
         // console.log("sadfjab");
-        // for(let i=0;i<tasks.length;i++)
+        // for(let i=0;i<task.length;i++)
         // {
         //    if(tasks[i].id===entry.id){'Accept': 'application/json'
         //         index=i;
@@ -174,7 +207,7 @@ const App = () => {
         //  getTaskEntries();
          url = 'http://localhost:5000/add-task';
         fetch(url).then(res=>res.json()).then(data=>{
-            if(entries.length==1)
+            if(entries.length==0)
             {
                 setEntries([]);
                 setTask([]);
@@ -200,8 +233,8 @@ const App = () => {
     const [task,setTask]=React.useState(entries);
     React.useEffect(()=>{
         let url = 'http://localhost:5000/add-task';
-        fetch(url).then(res=>(res.json(),console.log(res))).then(data=>{
-            if(entries.length==0)
+        fetch(url).then(res=>(res.json())).then(data=>{
+            if(!data)
             {
                 setEntries([]);
                 setTask([]);
@@ -213,8 +246,22 @@ const App = () => {
             }
         });
       },[]);
+    //   let entr=[];
+    //  const getEntries=()=>{
+    //     let url = 'http://localhost:5000/add-task';
+    //     fetch(url).then(res=>res.json()).then(data=>{
+    //         //  alert(data);
+    //         if(data!="empty")
+    //         {
+    //             entr=data;
+    //             return entr;
+    //         }
+    //         else{
+    //             return entr;
+    //         }
+    //     });
+    //  } 
 
-      
     let styles;
     let i=0,hour=0,minutes=0,totaltime=0;
     // for(i=0;i<entries.length;i = i + 1)
@@ -247,8 +294,24 @@ const App = () => {
             <h1>To-do List</h1>
             <section className="progress-container" >
                 <div style={styles}></div>
+             </section>
+            <section className="refresh-btn-container">
+                 <div className="double-refresh-part"> 
+                     <button className="refresh-btn" onClick={getTaskEntries}><span className="fa fa-refresh" style={{paddingRight:'0.5vh'}}></span>Refresh</button>
+                     <p className="double-tap">Double Tap on cross icon to remove task<i style={{marginLeft:'0.5vh'}} className="fa fa-hand-o-up" aria-hidden="true"></i></p>
+                   
+                 </div>
+                <div>
+                    <label className="task-input">
+                        <span className="filter">Sort By</span>
+                        <select className="task-select task-type" onChange={onTaskFilterChange} value={taskfilter}>
+                            {filter.map((task) => (
+                                <option value={task}>{task}</option>
+                            ))}
+                        </select>
+                    </label>
+                </div>
             </section>
-            <button onClick={getTaskEntries}>Refresh</button>
             {  entries.length > 0 ? (
                 <TaskList entries={entries} cardClose={(id)=>closeEntryCard(id)}/>
             ) : (

@@ -33,7 +33,7 @@ const TaskCard = (props) => {
         entry: { task, dueDate, taskstatus,remarks },
     } = props;
     const [status,setStatus]=React.useState(props.entry.task_status);
-    const duedate=Moment(dueDate).format('YYYY-MM-DD')
+    const duedate=Moment(props.entry.task_due_date).format('YYYY-MM-DD')
     const handleChange=(e)=>{
         setStatus(e.target.value);
         let url = 'http://localhost:5000/update-status';
@@ -64,7 +64,9 @@ const TaskCard = (props) => {
                 <p className="task-remarks">{props.entry.task_description}</p></div>
             </div>
             <div className="task-time">
-                {`Due Date: ${duedate} Task Type: ${status}`}
+                <section>
+                    {`Due Date: ${duedate} Task Type: ${status}`}
+                </section>
                 <Form>
                     <Form.Field>
                     {/* Selected value: <b>{this.state.value}</b> */}
