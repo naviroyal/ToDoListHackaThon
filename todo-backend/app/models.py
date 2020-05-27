@@ -1,4 +1,5 @@
 from app import db
+from sqlalchemy import desc
 
 
 class Tasks(db.Model):
@@ -31,4 +32,4 @@ class Tasks(db.Model):
 
     @staticmethod
     def get_by_priority():
-        return Tasks.query.filter_by(task_is_archived='f').order_by('task_priority').all()
+        return Tasks.query.filter_by(task_is_archived='f').order_by(desc('task_priority')).all()
