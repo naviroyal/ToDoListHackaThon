@@ -19,22 +19,52 @@ const App = () => {
     
     const openEntrySheet = () => {
         setIsEntrySheetOpen(true);
-        let url = 'http://localhost:5000/add-task';
-        fetch(url).then(res=>res.json()).then(data=>{
-            if(data!="empty")
-            {
-                setEntries(data);
-                setTask(data);
-            }
-            else{
-                setEntries([]);
-                setTask([]);
-            }
-        });
+        // let url = 'http://localhost:5000/add-task';
+        // fetch(url).then(res=>res.json()).then(data=>{
+        //     if(data!="empty")
+        //     {
+        //         setEntries(data);
+        //         setTask(data);
+        //     }
+        //     else{
+        //         setEntries([]);
+        //         setTask([]);
+        //     }
+        // });
     };
 
     const onTaskFilterChange = (event) => {
         setTaskFilter(event.target.value);
+        if(event.target.value == 'Priority')
+        {
+            let url = 'http://localhost:5000/task-by-priority';
+            fetch(url).then(res=>res.json()).then(data=>{
+                if(data!="empty")
+                {
+                    setEntries(data);
+                    setTask(data);
+                }
+                else{
+                    setEntries([]);
+                    setTask([]);
+                }
+            });
+        }
+        else if(event.target.value == 'Due Date')
+        {
+            let url = 'http://localhost:5000/add-task';
+            fetch(url).then(res=>res.json()).then(data=>{
+                if(data!="empty")
+                {
+                    setEntries(data);
+                    setTask(data);
+                }
+                else{
+                    setEntries([]);
+                    setTask([]);
+                }
+            });
+        }
         
     };
 
@@ -63,7 +93,7 @@ const App = () => {
             task_description : entry.remarks,
             task_points : '10',
             task_status : entry.taskstatus,
-            task_priority : entry.taskstatus
+            task_priority : entry.priority
         }
         // if(entries.length>0)
         // {
@@ -83,7 +113,7 @@ const App = () => {
                 task_description : entry.remarks,
                 task_points : '10',
                 task_status : entry.taskstatus,
-                task_priority : entry.taskstatus
+                task_priority : entry.priority
             }),
             headers:{
                 "Content-type":"application/json; charset=UTF-8",
@@ -149,20 +179,21 @@ const App = () => {
     const closeEntryCard = (id) => {
         // console.log(entry.id);
         // console.log("asdfaf");
-        let tasks=entries;
-        for(let i=0;i<tasks.length;i++)
-        {
-            if(tasks[i].id==id)
-            {
-                index=i;
-                tasks.splice(index,1);
-                break;
-            }
-        }
-        setEntries(tasks);
-        // let tasks=localStorage.getItem('tasks') ? JSON.parse(localStorage.getItem('tasks')||'{}') : [];
-        // //Crossicon is working by refreshing the page or addding new stylesheet but by clicking on cross icon its value from local storage gets deleted
-        // entries=task;
+        // let tasks=entries;
+        // console.log(tasks);
+        // for(let i=0;i<tasks.length;i++)
+        // {
+        //     if(tasks[i].id==id)
+        //     {
+        //         index=i;
+        //         tasks.splice(index,1);
+        //         break;
+        //     }
+        // }
+        // console.log(tasks);
+        // setEntries(tasks);
+
+
         let url = 'http://localhost:5000/add-task';
         fetch(url,{
             method:"PUT",
@@ -178,6 +209,12 @@ const App = () => {
             // existingTasksString=data;
             console.log('success');
         });
+
+       
+        // let tasks=localStorage.getItem('tasks') ? JSON.parse(localStorage.getItem('tasks')||'{}') : [];
+        // //Crossicon is working by refreshing the page or addding new stylesheet but by clicking on cross icon its value from local storage gets deleted
+        // entries=task;
+       
         // console.log("sadfjab");
         // for(let i=0;i<task.length;i++)
         // {
@@ -207,7 +244,7 @@ const App = () => {
         //  getTaskEntries();
          url = 'http://localhost:5000/add-task';
         fetch(url).then(res=>res.json()).then(data=>{
-            if(entries.length==0)
+            if(entries.length==1)
             {
                 setEntries([]);
                 setTask([]);
@@ -288,16 +325,20 @@ const App = () => {
     //  {
     //      styles={backgroundColor:'#a0a4a8', height: '.5em',borderRadius: '4px'}
     //  }
-     
+     let hght='100vh';
+     if(entries.length>6)
+     {
+         hght='auto';
+     }
      return (
-        <div className="app-container">
+        <div className="app-container" style={{height:hght}}>
             <h1>To-do List</h1>
             <section className="progress-container" >
                 <div style={styles}></div>
              </section>
             <section className="refresh-btn-container">
                  <div className="double-refresh-part"> 
-                     <button className="refresh-btn" onClick={getTaskEntries}><span className="fa fa-refresh" style={{paddingRight:'0.5vh'}}></span>Refresh</button>
+                     {/* <button className="refresh-btn" onClick={getTaskEntries}><span className="fa fa-refresh" style={{paddingRight:'0.5vh'}}></span>Refresh</button> */}
                      <p className="double-tap">Double Tap on cross icon to remove task<i style={{marginLeft:'0.5vh'}} className="fa fa-hand-o-up" aria-hidden="true"></i></p>
                    
                  </div>
@@ -317,7 +358,7 @@ const App = () => {
             ) : (
                 <p className="empty-text">No entries yet. Add a new entry by clicking the + button.</p>
             )}
-            <button className="floating-add-entry-btn" onClick={openEntrySheet}>
+            <button className="floating-add-entry-btn" style={{position:'fixed'}} onClick={openEntrySheet}>
                 <img className="add-icon" src={addIcon} alt="add entry" />
             </button>
             {isEntrySheetOpen && <NewEntrySheet onClose={closeEntrySheet} onAdd={onAddEntry} />}

@@ -104,3 +104,31 @@ def update_status():
         db.session.commit()
 
         return "Success put"
+
+
+@app.route('/task-by-priority',methods=["GET"])
+def get_by_priorities():
+    if request.method == "GET":
+        results = Tasks.get_by_priority()
+        print(results);
+        items = []
+        response = None
+        for result in results:
+            obj = {
+                'id': result.id,
+                'task_header': result.task_header,
+                'task_description': result.task_description,
+                'task_type': result.task_type,
+                'task_priority': result.task_priority,
+                'task_points': result.task_points,
+                'task_status': result.task_status,
+                'task_is_archived': result.task_is_archived,
+                'task_due_date': result.task_due_date
+            }
+            items.append(obj)
+            response = jsonify(items)
+        if response is None:
+            s = 'empty'
+            print(s)
+            return s
+        return response

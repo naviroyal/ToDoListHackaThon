@@ -15,7 +15,6 @@ export const TaskList = (props) => {
     // const [task,setTask]=React.useState(entries);
     // const [checkit,setCheckIt]=React.useState(true);
     // const [prevCheckIt,setPrevCheckIt]=React.useState(false);
-    
 
     return (
         <div className="task-list">
@@ -53,8 +52,11 @@ const TaskCard = (props) => {
             console.log('success');
         });
     }
+    const [checkid,setCheckId]=React.useState([]);
+
     return (
-        <div className="task-card">
+        <div >
+            <div className="task-card">
             <button className="remove-task-icon" onClick={props.onClose} autoFocus>
                 <img src={crossIcon} alt="close" className="cross-icon"/>
             </button>
@@ -67,6 +69,7 @@ const TaskCard = (props) => {
                 <section>
                     {`Due Date: ${duedate} Task Type: ${status}`}
                 </section>
+                
                 <Form>
                     <Form.Field>
                     {/* Selected value: <b>{this.state.value}</b> */}
@@ -104,6 +107,8 @@ const TaskCard = (props) => {
                 </Form>
 
             </div>
+            </div>
+            
 
         </div>
     );
