@@ -69,6 +69,21 @@ const App = () => {
                 }
             });
         }
+        else if(event.target.value == 'Label')
+        {
+            let url = 'http://localhost:5000/task-by-label';
+            fetch(url).then(res=>res.json()).then(data=>{
+                if(data!="empty")
+                {
+                    setEntries(data);
+                    setTask(data);
+                }
+                else{
+                    setEntries([]);
+                    setTask([]);
+                }
+            });
+        }
         
     };
 

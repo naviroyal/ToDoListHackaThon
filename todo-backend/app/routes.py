@@ -135,3 +135,31 @@ def get_by_priorities():
             print(s)
             return s
         return response
+
+
+@app.route('/task-by-label',methods=["GET"])
+def get_by_label():
+    if request.method == "GET":
+        results = Tasks.get_by_label()
+        print(results);
+        items = []
+        response = None
+        for result in results:
+            obj = {
+                'id': result.id,
+                'task_header': result.task_header,
+                'task_description': result.task_description,
+                'task_type': result.task_type,
+                'task_priority': result.task_priority,
+                'task_points': result.task_points,
+                'task_status': result.task_status,
+                'task_is_archived': result.task_is_archived,
+                'task_due_date': result.task_due_date
+            }
+            items.append(obj)
+            response = jsonify(items)
+        if response is None:
+            s = 'empty'
+            print(s)
+            return s
+        return response

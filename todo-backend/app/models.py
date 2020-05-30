@@ -33,3 +33,7 @@ class Tasks(db.Model):
     @staticmethod
     def get_by_priority():
         return Tasks.query.filter_by(task_is_archived='f').order_by(desc('task_priority')).all()
+
+    @staticmethod
+    def get_by_label():
+        return Tasks.query.filter_by(task_is_archived='f').order_by(db.case(((Tasks.task_type=="Work",1),(Tasks.task_type=="Personal",2),(Tasks.task_type=="Shopping",3)))).all()
