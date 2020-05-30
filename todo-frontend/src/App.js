@@ -342,11 +342,11 @@ const App = () => {
     //  {
     //      styles={backgroundColor:'#a0a4a8', height: '.5em',borderRadius: '4px'}
     //  }
-    //  let hght='100vh';
-    //  if(entries.length>=6)
-    //  {
-    //      hght='auto';
-    //  }
+     let hght='100vh';
+     if(entries.length>=5)
+     {
+         hght='auto';
+     }
     //  if(entries.length>=3 && entries.length<=5)
     //  {
         
@@ -363,12 +363,12 @@ const App = () => {
         progress: undefined,
         className: 'toast-success-container toast-success-container-after',
       progressClassName: css({
-        background: '#34A853',
+        background: '#2AC56C',
       }),
       });
 
      return (
-        <div className="app-container" >
+        <div className="app-container" style={{height:hght}}>
             <ToastContainer
                 className="toast-container"
                 position="top-center"
@@ -381,7 +381,7 @@ const App = () => {
                 draggable
                 pauseOnHover
             />
-            <h1 style={{color:'black'}}><i class="fa fa-list" aria-hidden="true"></i> To-do List</h1>
+            <h1 className="header" style={{color:'black'}}><i class="fa fa-list" aria-hidden="true"></i> To-do List</h1>
             <section className="progress-container" >
                 <div style={styles}></div>
              </section>
@@ -389,7 +389,7 @@ const App = () => {
                 <div>
                     <label className="task-input">
                         <span className="filter">Sort By</span>
-                        <select className="task-select task-type" onChange={onTaskFilterChange} value={taskfilter}>
+                        <select  style={{border:'2px solid black'}} className="task-select task-type" onChange={onTaskFilterChange} value={taskfilter}>
                             {filter.map((task) => (
                                 <option value={task}>{task}</option>
                             ))}
@@ -408,6 +408,7 @@ const App = () => {
                 <img className="add-icon" src={addIcon} alt="add entry" />
             </button>
             {isEntrySheetOpen && <NewEntrySheet onClose={closeEntrySheet} onAdd={onAddEntry} />}
+            
         </div>
     );
 };
