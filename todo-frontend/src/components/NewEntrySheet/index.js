@@ -23,7 +23,7 @@ export const NewEntrySheet= (props) => {
     const [priority,setPriority]=React.useState('off');
     const [isVisible,setVisible]=React.useState(true);
     const [dueDate,setDueDate]=React.useState(new Date());
-    const [id,setid]=React.useState(1);
+    const [id,setid]=React.useState(Math.floor( Math.random() * 1000000));
     const onTaskChange = (event) => {
         setTask(event.target.value);
         
@@ -47,8 +47,9 @@ export const NewEntrySheet= (props) => {
         
     };
 
-    const handleChange = date => {
-        setDueDate(date)
+    const handleChange = (event) => {
+        setDueDate(event.target.value);
+        console.log(event.target.value);
       };
 
     // const onHoursChange = (event) => {
@@ -73,12 +74,12 @@ export const NewEntrySheet= (props) => {
         if(event.target.value)
         {
             setVisible(false);
-              setid(id + 1);
+            //   setid(id + 1);
         }
     }
 
     const onAddEntry = () => {
-         setid(id + 1);
+        //  setid(Math.floor( Math.random() * 1000000));
         const entry = { id ,task,taskstatus,priority,dueDate,remarks };
         props.onAdd(entry);
     };
@@ -108,11 +109,13 @@ export const NewEntrySheet= (props) => {
                     <div>
                         <label className="task-input">
                             Due Date
-                            <DatePicker
+                            <input type="datetime-local" onChange={handleChange}
+                                className="date-input" ></input>
+                            {/* <DatePicker
                                 selected={dueDate}
                                 onChange={handleChange}
                                 className="date-input"
-                            />
+                            /> */}
                             {/* <div className="time-input-fields">
                                 <div>
                                     <input

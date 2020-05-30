@@ -6,10 +6,11 @@
 }
 .task-card {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   padding: 1em;
   border: 1px solid #e1e1e1;
-  border-radius: 4px;
+  border-radius: 7px;
   background: white;
   margin: 1em 0;
   position: relative;
@@ -28,7 +29,7 @@
   width: 2em;
   border-radius: 50%;
   position: absolute;
-  right: -1%;
+  right: -0.5%;
   top: -10%;
   justify-content: center;
   align-items: center;
@@ -38,11 +39,59 @@
 .task-card .remove-task-icon .cross-icon {
   height: 1.2em;
 }
+
+
 .task-card .task-remarks {
-  font-size: 1em;
+  font-size: 1.1em;
   font-weight: 300;
   margin: 0.5em 0;
   white-space: wrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.task-card{
+  padding-bottom: 0.6vh;
+  box-shadow: 4px 7px 16px grey;
+}
+
+.task-title{
+  margin: -1.8vh -1.8vh 1vh -1.8vh;
+  color:white;
+  padding:2.2vh;
+  font-family: 'Muli',sans-serif;
+  border-radius: 7px 7px 0px 0px;
+}
+
+.priority-set{
+  float: right;
+  font-size: 0.8em;
+  margin-bottom: -1vh;
+  color: white;
+  font-family: 'Muli',sans-serif;
+  padding: 0.5vh;
+  border-radius: 4px;
+  margin-right: -1vh;
+}
+
+.card-duedate{
+  font-size: 0.6em;
+}
+
+@media screen and (max-width:377px){
+ .card-duedate{
+   font-size: 0.55em;
+ }
+}
+
+@media screen and (max-width:585px){
+  .task-card .remove-task-icon{
+    top:-8%;
+  }
+ }
+
+ @media screen and (max-width:369px){
+  .task-card .remove-task-icon{
+    top:-7%;
+  }
+ }

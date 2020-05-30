@@ -16,7 +16,7 @@ class Tasks(db.Model):
     task_points = db.Column(db.Integer)
     task_status = db.Column(db.String(50))
     task_is_archived = db.Column(db.Boolean)
-    task_due_date = db.Column(db.Date())
+    task_due_date = db.Column(db.DateTime())
 
     @staticmethod
     def get_all():

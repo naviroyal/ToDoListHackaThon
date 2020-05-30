@@ -7,20 +7,16 @@ import './styles.css';
 import crossIcon from '../../assets/cross-icon.svg';
 import { IEntry } from '../NewEntrySheet';
  import { storageKey } from '../../constants/constants';
-import Moment from 'moment';
+import Moment, { utc } from 'moment';
 import { Form, Checkbox } from 'semantic-ui-react';
 
 export const TaskList = (props) => {
     let { entries } = props;
-    // const [task,setTask]=React.useState(entries);
-    // const [checkit,setCheckIt]=React.useState(true);
-    // const [prevCheckIt,setPrevCheckIt]=React.useState(false);
-
     return (
         <div className="task-list">
             {
             entries.map((entry) => (
-                <TaskCard entry={entry} onClose={()=>props.cardClose(entry.id)}/>
+                <TaskCard className="taskk" entry={entry} onClose={()=>props.cardClose(entry.id)}/>
             ))}
             
         </div>
@@ -28,11 +24,18 @@ export const TaskList = (props) => {
 };
 
 const TaskCard = (props) => {
-    const {
-        entry: { task, dueDate, taskstatus,remarks },
-    } = props;
+    
+    
+    let duedate;
+    if(props.entry.task_points=='10')
+    {
+        duedate=Moment(props.entry.task_due_date).utc().format('ddd, Do MMMM YYYY, hh:mma');
+    }
+    else
+    {
+        duedate=Moment(props.entry.task_due_date).format('ddd, Do MMMM YYYY, hh:mma');
+    }
     const [status,setStatus]=React.useState(props.entry.task_status);
-    const duedate=Moment(props.entry.task_due_date).format('YYYY-MM-DD')
     const handleChange=(e)=>{
         setStatus(e.target.value);
         let url = 'http://localhost:5000/update-status';
@@ -53,26 +56,36 @@ const TaskCard = (props) => {
         });
     }
     const [checkid,setCheckId]=React.useState([]);
-
+    let titlestyle='#2AC56C';
+    if(props.entry.task_status=='New')
+    {
+        titlestyle='#CD4436';
+    }
+    else if(props.entry.task_status=='In Progress')
+    {
+        titlestyle='#F19f0f';
+    }
     return (
-        <div >
+        
             <div className="task-card">
             <button className="remove-task-icon" onClick={props.onClose} autoFocus>
                 <img src={crossIcon} alt="close" className="cross-icon"/>
             </button>
-            <div>
-                <div className="task-title">{props.entry.task_header}</div>
-                <div className="remarks">
-                <p className="task-remarks">{props.entry.task_description}</p></div>
+    <div className="task-title" style={{backgroundColor:titlestyle}}>{props.entry.task_header}<span style={{float:"right",fontSize:'0.8em',marginTop:'0.8vh'}}>{props.entry.task_status}</span></div>
+            <div className="remarks">
+                    <p className="task-remarks">{props.entry.task_description}</p>
             </div>
             <div className="task-time">
                 <section>
-                    {`Due Date: ${duedate} Task Type: ${status}`}
+                {<span className="card-duedate">Deadline : {duedate}</span>}
+                    {
+                        props.entry.task_priority=='on'?
+                        <span className="priority-set" style={{backgroundColor:titlestyle}}>High</span>:<span style={{backgroundColor:titlestyle}} className="priority-set">Low</span>
+                      }
                 </section>
                 
-                <Form>
+                {/* <Form>
                     <Form.Field>
-                    {/* Selected value: <b>{this.state.value}</b> */}
                     </Form.Field>
                     <Form.Field style={{display:'flex',justifyContent:'space-between'}}>
                     <Checkbox
@@ -83,8 +96,7 @@ const TaskCard = (props) => {
                         checked={status === 'New'}
                         onChange={handleChange}
                     />
-                    {/* </Form.Field>
-                    <Form.Field> */}
+                   
                     <Checkbox
                         radio
                         label='In Progress'
@@ -93,8 +105,7 @@ const TaskCard = (props) => {
                         checked={status === 'In Progress'}
                         onChange={handleChange}
                     />
-                    {/* </Form.Field>
-                    <Form.Field> */}
+                    
                     <Checkbox
                         radio
                         label='Completed'
@@ -104,13 +115,13 @@ const TaskCard = (props) => {
                         onChange={handleChange}
                     />
                     </Form.Field>
-                </Form>
-
+                </Form> */}
+                
             </div>
+            
             </div>
             
 
-        </div>
     );
 };
 

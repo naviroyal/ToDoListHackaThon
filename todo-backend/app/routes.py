@@ -1,5 +1,7 @@
+import datetime
 import json
 
+import pytz as pytz
 from flask import request, jsonify
 from app import app, db
 from app.models import Tasks
@@ -38,7 +40,7 @@ def sign_in():
 def add_task():
     if request.method == "POST":
         content = request.get_json()
-        # print(content);
+        id = content['id']
         task_header = content['task_header']
         task_due_date = content['task_due_date']
         task_type = content['task_type']
@@ -47,7 +49,8 @@ def add_task():
         task_status = content['task_status']
         task_priority = content['task_priority']
         task_is_archived = False
-        new_task = Tasks(task_header=task_header,
+        new_task = Tasks(id=id,
+                         task_header=task_header,
                          task_due_date=task_due_date,
                          task_priority=task_priority,
                          task_description=task_description,

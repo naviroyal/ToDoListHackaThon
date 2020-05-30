@@ -11,6 +11,10 @@ import { storageKey } from './constants/constants';
 import {filter} from './constants/constants';
 import { get } from 'https';
 import { isNull } from 'util';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Moment from 'moment';
+import { css } from 'glamor';
 
 const App = () => {
     const [isEntrySheetOpen, setIsEntrySheetOpen] = React.useState(false);
@@ -85,13 +89,15 @@ const App = () => {
     };
 
     const onAddEntry = (entry) => {
-        // console.log(entry);
+        //  console.log(entry);
+        
         let sheet={
+            id:entry.id,
             task_header:entry.task,
             task_due_date:entry.dueDate,
             task_type : entry.task,
             task_description : entry.remarks,
-            task_points : '10',
+            task_points : '20',
             task_status : entry.taskstatus,
             task_priority : entry.priority
         }
@@ -107,6 +113,7 @@ const App = () => {
         fetch(url,{
             method:"POST",
             body:JSON.stringify({
+                id:entry.id,
                 task_header:entry.task,
                 task_due_date:entry.dueDate,
                 task_type : entry.task,
@@ -123,6 +130,7 @@ const App = () => {
             // existingTasksString=data;
             console.log('success');
         });
+        notify();
 
         // url = 'http://localhost:5000/add-task';
         // fetch(url).then(res=>res.json()).then(data=>{
@@ -192,7 +200,7 @@ const App = () => {
         // }
         // console.log(tasks);
         // setEntries(tasks);
-
+        console.log(id);
 
         let url = 'http://localhost:5000/add-task';
         fetch(url,{
@@ -205,11 +213,20 @@ const App = () => {
                 "Content-type":"application/json; charset=UTF-8",
                 'Accept': 'application/json'
             }
-        }).then(res=>res.json()).then(data=>{
-            // existingTasksString=data;
-            console.log('success');
+        }).then(res=>{
+            if(res.status===200)
+            {
+                setEntries(entries.filter( i => i.id !== id));
+                return res.json();
+            }   
+            else
+            {
+                console('fail');
+            }
+           
+        
         });
-
+        notify();
        
         // let tasks=localStorage.getItem('tasks') ? JSON.parse(localStorage.getItem('tasks')||'{}') : [];
         // //Crossicon is working by refreshing the page or addding new stylesheet but by clicking on cross icon its value from local storage gets deleted
@@ -242,20 +259,20 @@ const App = () => {
     //    }
         // localStorage.setItem('tasks',JSON.stringify(tasks));
         //  getTaskEntries();
-         url = 'http://localhost:5000/add-task';
-        fetch(url).then(res=>res.json()).then(data=>{
-            if(entries.length==1)
-            {
-                setEntries([]);
-                setTask([]);
-                console.log('hullu')
-            }
-            else{
-                setEntries(data);
-                setTask(data);
-            }
+        //  url = 'http://localhost:5000/add-task';
+        // fetch(url).then(res=>res.json()).then(data=>{
+        //     if(entries.length==1)
+        //     {
+        //         setEntries([]);
+        //         setTask([]);
+        //         console.log('hullu')
+        //     }
+        //     else{
+        //         setEntries(data);
+        //         setTask(data);
+        //     }
             
-        });   
+        // });   
             // closeEntrySheet();
     }
 
@@ -325,23 +342,50 @@ const App = () => {
     //  {
     //      styles={backgroundColor:'#a0a4a8', height: '.5em',borderRadius: '4px'}
     //  }
-     let hght='100vh';
-     if(entries.length>6)
-     {
-         hght='auto';
-     }
+    //  let hght='100vh';
+    //  if(entries.length>=6)
+    //  {
+    //      hght='auto';
+    //  }
+    //  if(entries.length>=3 && entries.length<=5)
+    //  {
+        
+    //  }
+
+
+    const notify = () => toast.success('Success', {
+        position: "bottom-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        className: 'toast-success-container toast-success-container-after',
+      progressClassName: css({
+        background: '#34A853',
+      }),
+      });
+
      return (
-        <div className="app-container" style={{height:hght}}>
-            <h1>To-do List</h1>
+        <div className="app-container" >
+            <ToastContainer
+                className="toast-container"
+                position="top-center"
+                autoClose={1000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
+            <h1 style={{color:'black'}}><i class="fa fa-list" aria-hidden="true"></i> To-do List</h1>
             <section className="progress-container" >
                 <div style={styles}></div>
              </section>
             <section className="refresh-btn-container">
-                 <div className="double-refresh-part"> 
-                     {/* <button className="refresh-btn" onClick={getTaskEntries}><span className="fa fa-refresh" style={{paddingRight:'0.5vh'}}></span>Refresh</button> */}
-                     <p className="double-tap">Double Tap on cross icon to remove task<i style={{marginLeft:'0.5vh'}} className="fa fa-hand-o-up" aria-hidden="true"></i></p>
-                   
-                 </div>
                 <div>
                     <label className="task-input">
                         <span className="filter">Sort By</span>
@@ -353,11 +397,13 @@ const App = () => {
                     </label>
                 </div>
             </section>
-            {  entries.length > 0 ? (
-                <TaskList entries={entries} cardClose={(id)=>closeEntryCard(id)}/>
-            ) : (
-                <p className="empty-text">No entries yet. Add a new entry by clicking the + button.</p>
-            )}
+            { entries.length > 0 ? (
+                    <TaskList entries={entries} cardClose={(id)=>closeEntryCard(id)}/>
+                ) : (
+                    <p className="empty-text">No entries yet. Add a new entry by clicking the + button.</p>
+                )
+            }
+            
             <button className="floating-add-entry-btn" style={{position:'fixed'}} onClick={openEntrySheet}>
                 <img className="add-icon" src={addIcon} alt="add entry" />
             </button>
