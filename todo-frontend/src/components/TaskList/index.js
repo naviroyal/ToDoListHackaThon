@@ -5,10 +5,8 @@
 import * as React from 'react';
 import './styles.css';
 import crossIcon from '../../assets/cross-icon.svg';
-import { IEntry } from '../NewEntrySheet';
- import { storageKey } from '../../constants/constants';
-import Moment, { utc } from 'moment';
-import { Form, Checkbox } from 'semantic-ui-react';
+import Moment from 'moment';
+import { taskStatus } from '../../constants/constants';
 
 export const TaskList = (props) => {
     let { entries } = props;
@@ -16,18 +14,22 @@ export const TaskList = (props) => {
         <div className="task-list">
             {
             entries.map((entry) => (
-                <TaskCard className="taskk" entry={entry} onClose={()=>props.cardClose(entry.id)}/>
+                <TaskCard  className="taskk" entry={entry} onClose={()=>props.cardClose(entry.id)}/>
             ))}
             
         </div>
     );
 };
 
+
+
+
+
 const TaskCard = (props) => {
     
     
     let duedate;
-    if(props.entry.task_points=='10')
+    if(props.entry.task_points==='10')
     {
         duedate=Moment(props.entry.task_due_date).utc().format('ddd, Do MMMM YYYY, hh:mma');
     }
@@ -35,15 +37,61 @@ const TaskCard = (props) => {
     {
         duedate=Moment(props.entry.task_due_date).format('ddd, Do MMMM YYYY, hh:mma');
     }
-    const [status,setStatus]=React.useState(props.entry.task_status);
-    const handleChange=(e)=>{
-        setStatus(e.target.value);
-        let url = 'http://localhost:5000/update-status';
+//    const handleChange=(e)=>{
+//         let url = 'http://localhost:5000/update-status';
+//         fetch(url,{
+//             method:"PUT",
+//             body:JSON.stringify({
+//                 id:props.entry.id,
+//                 task_status:e.target.value
+//             }),
+
+//             headers:{
+//                 "Content-type":"application/json; charset=UTF-8",
+//                 'Accept': 'application/json'
+//             }
+//         }).then(res=>res.json()).then(data=>{
+//             // existingTasksString=data;
+//             console.log('success');
+//         });
+//     }
+    // const [checkid,setCheckId]=React.useState([]);
+    const [taskstatus,setTaskStatus]=React.useState(props.entry.task_status);
+    let t;
+    if(props.entry.task_status==='New')
+    {
+        t='#CD4436';
+    }
+    else if(props.entry.task_status==='In Progress')
+    {
+        t='#F19f0f';
+    }
+    else{
+        t='#2AC56C';
+    }
+    const [titlestyle,setTitleStyle]=React.useState(t);
+    const onTaskStatusChange = (event) => {
+        setTaskStatus(event.target.value);
+        if(event.target.value==='New')
+        {
+            t='#CD4436';
+            setTitleStyle(t);
+        }
+        else if(event.target.value==='In Progress')
+        {
+            t='#F19f0f';
+            setTitleStyle(t);
+        }
+        else{
+            t='#2AC56C';
+            setTitleStyle(t);
+        }
+        let url = 'https://todobackend-api.herokuapp.com/update-status';
         fetch(url,{
             method:"PUT",
             body:JSON.stringify({
                 id:props.entry.id,
-                task_status:e.target.value
+                task_status:event.target.value
             }),
 
             headers:{
@@ -54,24 +102,32 @@ const TaskCard = (props) => {
             // existingTasksString=data;
             console.log('success');
         });
-    }
-    const [checkid,setCheckId]=React.useState([]);
-    let titlestyle='#2AC56C';
-    if(props.entry.task_status=='New')
-    {
-        titlestyle='#CD4436';
-    }
-    else if(props.entry.task_status=='In Progress')
-    {
-        titlestyle='#F19f0f';
-    }
+    };
+
+    //  titlestyle='#2AC56C';
+    // if(props.entry.task_status=='New')
+    // {
+    //     titlestyle='#CD4436';
+    // }
+   
     return (
         
             <div className="task-card">
             <button className="remove-task-icon" onClick={props.onClose} autoFocus>
                 <img src={crossIcon} alt="close" className="cross-icon"/>
             </button>
-    <div className="task-title" style={{backgroundColor:titlestyle}}>{props.entry.task_header}<span style={{float:"right",fontSize:'0.8em',marginTop:'0.8vh'}}>{props.entry.task_status}</span></div>
+            <div className="task-title" style={{backgroundColor:titlestyle}}>
+                {props.entry.task_header}
+                <span style={{float:"right",fontSize:'0.8em',marginTop:'0.2em'}}>
+                    <select style={{backgroundColor:titlestyle}} className="drop" onChange={onTaskStatusChange} value={taskstatus}>
+                                            {taskStatus.map((taskstatus) => (
+                                                <option value={taskstatus}>{taskstatus}</option>
+                                            ))}
+                    </select>
+                </span>
+            </div>
+           
+           
             <div className="remarks">
                     <p className="task-remarks">{props.entry.task_description}</p>
             </div>
@@ -79,7 +135,7 @@ const TaskCard = (props) => {
                 <section>
                 {<span className="card-duedate">Deadline : {duedate}</span>}
                     {
-                        props.entry.task_priority=='on'?
+                        props.entry.task_priority==='on'?
                         <span className="priority-set" style={{backgroundColor:titlestyle}}>High</span>:<span style={{backgroundColor:titlestyle}} className="priority-set">Low</span>
                       }
                 </section>

@@ -8,7 +8,6 @@ import crossIcon from '../../assets/cross-icon.svg';
 import { Button } from '../Button';
 import { taskTypes } from '../../constants/constants';
 import { taskStatus } from '../../constants/constants';
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 
@@ -30,7 +29,7 @@ export const NewEntrySheet= (props) => {
     };
 
     const onPriortyChange=()=>{
-        if(priority=='off')
+        if(priority==='off')
         {
             setPriority('on');
         }

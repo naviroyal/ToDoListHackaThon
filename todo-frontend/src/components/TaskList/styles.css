@@ -56,9 +56,9 @@
 }
 
 .task-title{
-  margin: -1.8vh -1.8vh 1vh -1.8vh;
+  margin: -0.7em -0.7em 0.1em -0.7em;
   color:white;
-  padding:2.2vh;
+  padding:0.9em;
   font-family: 'Muli',sans-serif;
   border-radius: 7px 7px 0px 0px;
 }
@@ -66,13 +66,22 @@
 .priority-set{
   float: right;
   font-size: 0.8em;
-  margin-bottom: -1vh;
+  margin-bottom: -1em;
   color: white;
   font-family: 'Muli',sans-serif;
-  padding: 0.5vh;
+  padding: 0.2em;
   border-radius: 4px;
-  margin-right: -1vh;
+  margin-right: -0.5em;
 }
+
+.drop{
+  border:2px solid white;
+  border-radius: 4px;
+  color:white;
+  font-size: 1em;
+  margin-top: -1em;
+}
+
 
 .card-duedate{
   font-size: 0.6em;

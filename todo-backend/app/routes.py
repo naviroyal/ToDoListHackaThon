@@ -4,7 +4,9 @@ import json
 import pytz as pytz
 from flask import request, jsonify
 from app import app, db
-from app.models import Tasks
+from app.models import Tasks,Admins
+from flask import session
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 @app.route('/')
@@ -13,27 +15,61 @@ def test():
     return app.send_static_file('index.html')
 
 
-@app.route('/sign-in', methods=["GET", "POST"])
-def sign_in():
+@app.route('/login', methods=['POST', 'GET'])
+def login_post():
     if request.method == "POST":
-        req = request.form
-        username = req.get("username")
-        password = req.get("password")
-        # if not username in users:
-        #     print("Username not found")
-        #     return redirect(request.url)
-        # else:
-        #     user = users[username]
-        #
-        # if not password == user["password"]:
-        #     print("Incorrect password")
-        #     return redirect(request.url)
-        # else:
-        #     session["USERNAME"] = user["username"]
-        #     print("session username set")
-        #     return redirect(url_for("profile"))
-        #
-        # return render_template("public/sign_in.html")
+        content = request.get_json()
+        password = content['password']
+        email = content['email']
+        print(email, password)
+        d={'success':True}
+        user = Admins.query.filter_by(email=email).first()
+        if user and user.password == password:
+            session['email'] = user.email
+            print('yeah')
+            return json.dumps(d)
+        # if not user or not check_password_hash(user.password, password):
+        #     print(jsonify("BAD request login"))
+        #     return json.dumps("BAD request login")
+        else:
+            print('yup')
+            d['success']=False
+            return json.dumps(d)
+
+
+
+@app.route('/signup', methods=['POST', 'GET'])
+def signup_post():
+    if request.method == "POST":
+        content = request.get_json()
+        username = content['username'],
+        password = content['password'],
+        gender = content['gender'],
+        email = content['email']
+        temp_password = password
+        phone_number = content['phone_number']
+        try:
+            admin = Admins(
+                username=username,
+                password=temp_password,
+                email=email,
+                gender=gender,
+                phone_number=phone_number
+            )
+            db.session.add(admin)
+            db.session.commit()
+        except Exception as e:
+            return str(e)
+        return 'success'
+
+
+@app.route('/logout')
+def logout():
+    if 'email' in session:
+        session.pop('email', None)
+        return "you are logged out"
+    else:
+        return "User Not logged in!"
 
 
 @app.route('/add-task', methods=["GET", "POST","PUT"])
@@ -41,6 +77,7 @@ def add_task():
     if request.method == "POST":
         content = request.get_json()
         id = content['id']
+        email=content['email']
         task_header = content['task_header']
         task_due_date = content['task_due_date']
         task_type = content['task_type']
@@ -50,6 +87,7 @@ def add_task():
         task_priority = content['task_priority']
         task_is_archived = False
         new_task = Tasks(id=id,
+                         email=email,
                          task_header=task_header,
                          task_due_date=task_due_date,
                          task_priority=task_priority,
@@ -64,8 +102,9 @@ def add_task():
 
         return "Success"
 
-    elif request.method == "GET":
-        results = Tasks.get_active()
+    elif  request.method == "GET":
+        print(request.args.get('email'))
+        results = Tasks.get_active(request.args.get('email'))
         items = []
         response = None
         for result in results:
@@ -88,7 +127,7 @@ def add_task():
             return s
         return response
 
-    if request.method == "PUT":
+    if  request.method == "PUT":
         content = request.get_json()
         data = Tasks.query.filter_by(id=content['id']).first()
         data.task_is_archived = True
@@ -112,7 +151,7 @@ def update_status():
 @app.route('/task-by-priority',methods=["GET"])
 def get_by_priorities():
     if request.method == "GET":
-        results = Tasks.get_by_priority()
+        results = Tasks.get_by_priority(request.args.get('email'))
         print(results);
         items = []
         response = None
@@ -140,7 +179,7 @@ def get_by_priorities():
 @app.route('/task-by-label',methods=["GET"])
 def get_by_label():
     if request.method == "GET":
-        results = Tasks.get_by_label()
+        results = Tasks.get_by_label(request.args.get('email'))
         print(results);
         items = []
         response = None

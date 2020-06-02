@@ -1,29 +1,23 @@
-/**
- * @author: Tejas Upmanyu (@tejasupmanyu)
- * App Component
- */
 import React from 'react';
 import './App.css';
 import addIcon from './assets/plus-icon.svg';
-import { NewEntrySheet, IEntry } from './components/NewEntrySheet';
+import { NewEntrySheet } from './components/NewEntrySheet';
 import { TaskList } from './components/TaskList';
-import { storageKey } from './constants/constants';
 import {filter} from './constants/constants';
-import { get } from 'https';
-import { isNull } from 'util';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Moment from 'moment';
 import { css } from 'glamor';
+import {Header} from './components/Header/header';
+import {useLocation} from 'react-router-dom';
 
 const App = () => {
     const [isEntrySheetOpen, setIsEntrySheetOpen] = React.useState(false);
     const [entries,setEntries]=React.useState([]);
     const [taskfilter, setTaskFilter] = React.useState(filter[0]);
-    
+    let location=useLocation();
     const openEntrySheet = () => {
         setIsEntrySheetOpen(true);
-        // let url = 'http://localhost:5000/add-task';
+        // let url = '/add-task';
         // fetch(url).then(res=>res.json()).then(data=>{
         //     if(data!="empty")
         //     {
@@ -39,11 +33,11 @@ const App = () => {
 
     const onTaskFilterChange = (event) => {
         setTaskFilter(event.target.value);
-        if(event.target.value == 'Priority')
+        if(event.target.value === 'Priority')
         {
-            let url = 'http://localhost:5000/task-by-priority';
+            let url = 'https://todobackend-api.herokuapp.com/task-by-priority?email='+location.state.email+'';
             fetch(url).then(res=>res.json()).then(data=>{
-                if(data!="empty")
+                if(data!=="empty")
                 {
                     setEntries(data);
                     setTask(data);
@@ -54,11 +48,11 @@ const App = () => {
                 }
             });
         }
-        else if(event.target.value == 'Due Date')
+        else if(event.target.value === 'Due Date')
         {
-            let url = 'http://localhost:5000/add-task';
+            let url = 'https://todobackend-api.herokuapp.com/add-task?email='+location.state.email+'';
             fetch(url).then(res=>res.json()).then(data=>{
-                if(data!="empty")
+                if(data!=="empty")
                 {
                     setEntries(data);
                     setTask(data);
@@ -69,11 +63,11 @@ const App = () => {
                 }
             });
         }
-        else if(event.target.value == 'Label')
+        else if(event.target.value === 'Label')
         {
-            let url = 'http://localhost:5000/task-by-label';
+            let url = 'https://todobackend-api.herokuapp.com/task-by-label?email='+location.state.email+'';
             fetch(url).then(res=>res.json()).then(data=>{
-                if(data!="empty")
+                if(data!=="empty")
                 {
                     setEntries(data);
                     setTask(data);
@@ -89,7 +83,7 @@ const App = () => {
 
     const closeEntrySheet = () => {
         setIsEntrySheetOpen(false);
-        // let url = 'http://localhost:5000/add-task';
+        // let url = '/add-task';
         // fetch(url).then(res=>res.json()).then(data=>{
         //     if(data!="empty")
         //     {
@@ -108,6 +102,7 @@ const App = () => {
         
         let sheet={
             id:entry.id,
+            email:location.state.email,
             task_header:entry.task,
             task_due_date:entry.dueDate,
             task_type : entry.task,
@@ -124,11 +119,12 @@ const App = () => {
         // else{
         //     setEntries(sheet);
         // }
-        let url = 'http://localhost:5000/add-task';
+        let url = 'https://todobackend-api.herokuapp.com/add-task';
         fetch(url,{
             method:"POST",
             body:JSON.stringify({
                 id:entry.id,
+                email:location.state.email,
                 task_header:entry.task,
                 task_due_date:entry.dueDate,
                 task_type : entry.task,
@@ -147,7 +143,7 @@ const App = () => {
         });
         notify();
 
-        // url = 'http://localhost:5000/add-task';
+        // url = '/add-task';
         // fetch(url).then(res=>res.json()).then(data=>{
         //     if(data!="empty")
         //     {
@@ -171,21 +167,21 @@ const App = () => {
         
     };
     // const entries=[];
-    const getTaskEntries = () => {
-        let url = 'http://localhost:5000/add-task';
-        fetch(url).then(res=>res.json()).then(data=>{
-            //  alert(data);
-            if(data!="empty")
-            {
-                setEntries(data);
-                setTask(data);
-            }
-            else{
-                setEntries([]);
-                setTask([]);
-            }
-        });
-        // let url = 'http://localhost:5000/add-task';
+    // const getTaskEntries = () => {
+    //     let url = '/add-task';
+    //     fetch(url).then(res=>res.json()).then(data=>{
+    //         //  alert(data);
+    //         if(data!="empty")
+    //         {
+    //             setEntries(data);
+    //             setTask(data);
+    //         }
+    //         else{
+    //             setEntries([]);
+    //             setTask([]);
+    //         }
+    //     });
+        // let url = '/add-task';
         // let result=fetch(url).then(res=>res.json()).then(data=>{
         //     return data;
         //     //  console.log(entriess);
@@ -195,9 +191,9 @@ const App = () => {
         // //  entriess = entriesString ? JSON.parse(entriesString) : [];
         
         // return result;
-    };
+    // };
 
-    let index;
+    // let index;
     
     const closeEntryCard = (id) => {
         // console.log(entry.id);
@@ -217,7 +213,7 @@ const App = () => {
         // setEntries(tasks);
         console.log(id);
 
-        let url = 'http://localhost:5000/add-task';
+        let url = 'https://todobackend-api.herokuapp.com/add-task';
         fetch(url,{
             method:"PUT",
             body:JSON.stringify({
@@ -257,7 +253,7 @@ const App = () => {
         //    }
         // }
        // if(index === undefined) return 
-    //    url = 'http://localhost:5000/add-task';
+    //    url = '/add-task';
     //     fetch(url).then(res=>res.json()).then(data=>{
     //         setTask(data);
     //         setEntries(data);
@@ -274,7 +270,7 @@ const App = () => {
     //    }
         // localStorage.setItem('tasks',JSON.stringify(tasks));
         //  getTaskEntries();
-        //  url = 'http://localhost:5000/add-task';
+        //  url = '/add-task';
         // fetch(url).then(res=>res.json()).then(data=>{
         //     if(entries.length==1)
         //     {
@@ -301,8 +297,14 @@ const App = () => {
     //  console.log(entries);
     const [task,setTask]=React.useState(entries);
     React.useEffect(()=>{
-        let url = 'http://localhost:5000/add-task';
-        fetch(url).then(res=>(res.json())).then(data=>{
+        let url = 'https://todobackend-api.herokuapp.com/add-task?email='+location.state.email+'';
+        fetch(url,{
+            method:"GET",
+            headers:{
+                "Content-type":"application/json; charset=UTF-8",
+                'Accept': 'application/json'
+            }
+        }).then(res=>(res.json())).then(data=>{
             if(!data)
             {
                 setEntries([]);
@@ -314,10 +316,10 @@ const App = () => {
                 setTask(data);
             }
         });
-      },[]);
+      });
     //   let entr=[];
     //  const getEntries=()=>{
-    //     let url = 'http://localhost:5000/add-task';
+    //     let url = '/add-task';
     //     fetch(url).then(res=>res.json()).then(data=>{
     //         //  alert(data);
     //         if(data!="empty")
@@ -331,8 +333,8 @@ const App = () => {
     //     });
     //  } 
 
-    let styles;
-    let i=0,hour=0,minutes=0,totaltime=0;
+    // let styles;
+    // let i=0,hour=0,minutes=0,totaltime=0;
     // for(i=0;i<entries.length;i = i + 1)
     // {
     //     hour = hour + entries[i].hours * 60;
@@ -357,15 +359,8 @@ const App = () => {
     //  {
     //      styles={backgroundColor:'#a0a4a8', height: '.5em',borderRadius: '4px'}
     //  }
-     let hght='100vh';
-     if(entries.length>=5)
-     {
-         hght='auto';
-     }
-    //  if(entries.length>=3 && entries.length<=5)
-    //  {
-        
-    //  }
+     let hght='auto';
+    
 
 
     const notify = () => toast.success('Success', {
@@ -383,7 +378,7 @@ const App = () => {
       });
 
      return (
-        <div className="app-container" style={{height:hght}}>
+             <div className="app-container" style={{height:hght}}>
             <ToastContainer
                 className="toast-container"
                 position="top-center"
@@ -396,10 +391,8 @@ const App = () => {
                 draggable
                 pauseOnHover
             />
-            <h1 className="header" style={{color:'black'}}><i class="fa fa-list" aria-hidden="true"></i> To-do List</h1>
-            <section className="progress-container" >
-                <div style={styles}></div>
-             </section>
+            <Header buttonText="LOGOUT"/>
+            
             <section className="refresh-btn-container">
                 <div>
                     <label className="task-input">
@@ -415,7 +408,11 @@ const App = () => {
             { entries.length > 0 ? (
                     <TaskList entries={entries} cardClose={(id)=>closeEntryCard(id)}/>
                 ) : (
-                    <p className="empty-text">No entries yet. Add a new entry by clicking the + button.</p>
+                    <ul className="empty-text-container">
+                        <li className="empty-text">No Entries yet</li>
+                        <li className="empty-text">Click on + icon to create new entry</li>
+                        <li className="empty-text">No need of memorize things to do just add here.</li>
+                    </ul>
                 )
             }
             
@@ -424,7 +421,7 @@ const App = () => {
             </button>
             {isEntrySheetOpen && <NewEntrySheet onClose={closeEntrySheet} onAdd={onAddEntry} />}
             
-        </div>
+        </div>   
     );
 };
 
