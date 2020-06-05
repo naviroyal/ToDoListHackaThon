@@ -37,7 +37,6 @@ export const SignUp=()=>{
 
 
     const checkWithDataBase=()=>{
-        // console.log(username);
         let url = 'https://todobackend-api.herokuapp.com/signup';
         fetch(url,{
             method:"POST",
@@ -53,7 +52,6 @@ export const SignUp=()=>{
                 'Accept': 'application/json'
             }
         }).then(res=>res.json()).then(data=>{
-            // existingTasksString=data;
             console.log('success');
         });
     }

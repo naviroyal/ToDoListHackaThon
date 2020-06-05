@@ -17,18 +17,6 @@ const App = () => {
     let location=useLocation();
     const openEntrySheet = () => {
         setIsEntrySheetOpen(true);
-        // let url = '/add-task';
-        // fetch(url).then(res=>res.json()).then(data=>{
-        //     if(data!="empty")
-        //     {
-        //         setEntries(data);
-        //         setTask(data);
-        //     }
-        //     else{
-        //         setEntries([]);
-        //         setTask([]);
-        //     }
-        // });
     };
 
     const onTaskFilterChange = (event) => {
@@ -83,23 +71,10 @@ const App = () => {
 
     const closeEntrySheet = () => {
         setIsEntrySheetOpen(false);
-        // let url = '/add-task';
-        // fetch(url).then(res=>res.json()).then(data=>{
-        //     if(data!="empty")
-        //     {
-        //         setEntries(data);
-        //         setTask(data);
-        //     }
-        //     else{
-        //         setEntries([]);
-        //         setTask([]);
-        //     }
-        // });
     };
 
     const onAddEntry = (entry) => {
-        //  console.log(entry);
-        
+       
         let sheet={
             id:entry.id,
             email:location.state.email,
@@ -111,14 +86,10 @@ const App = () => {
             task_status : entry.taskstatus,
             task_priority : entry.priority
         }
-        // if(entries.length>0)
-        // {
-            let entr=[...entries,sheet];
+       
+        let entr=[...entries,sheet];
             setEntries(entr);
-        // }
-        // else{
-        //     setEntries(sheet);
-        // }
+       
         let url = 'https://todobackend-api.herokuapp.com/add-task';
         fetch(url,{
             method:"POST",
@@ -138,79 +109,14 @@ const App = () => {
                 'Accept': 'application/json'
             }
         }).then(res=>res.json()).then(data=>{
-            // existingTasksString=data;
             console.log('success');
         });
         notify();
-
-        // url = '/add-task';
-        // fetch(url).then(res=>res.json()).then(data=>{
-        //     if(data!="empty")
-        //     {
-        //         setEntries(data);
-        //         setTask(data);
-        //     }
-        //     else{
-        //         setEntries([]);
-        //         setTask([]);
-        //     }
-        // });
-        // const existingTasksString = window.localStorage.getItem(storageKey);
-        // if (existingTasksString) {
-        //     const existingTasks = JSON.parse(existingTasksString);
-        //     const newTasks = [...existingTasks, entry];
-        //      window.localStorage.setItem(storageKey, JSON.stringify(newTasks));
-        // } else {
-        //      window.localStorage.setItem(storageKey, JSON.stringify([entry]));
-        // }
         closeEntrySheet();
         
     };
-    // const entries=[];
-    // const getTaskEntries = () => {
-    //     let url = '/add-task';
-    //     fetch(url).then(res=>res.json()).then(data=>{
-    //         //  alert(data);
-    //         if(data!="empty")
-    //         {
-    //             setEntries(data);
-    //             setTask(data);
-    //         }
-    //         else{
-    //             setEntries([]);
-    //             setTask([]);
-    //         }
-    //     });
-        // let url = '/add-task';
-        // let result=fetch(url).then(res=>res.json()).then(data=>{
-        //     return data;
-        //     //  console.log(entriess);
-        //     // console.log('success');
-        // });
-        // //  const entriesString = window.localStorage.getItem(storageKey);
-        // //  entriess = entriesString ? JSON.parse(entriesString) : [];
-        
-        // return result;
-    // };
-
-    // let index;
     
     const closeEntryCard = (id) => {
-        // console.log(entry.id);
-        // console.log("asdfaf");
-        // let tasks=entries;
-        // console.log(tasks);
-        // for(let i=0;i<tasks.length;i++)
-        // {
-        //     if(tasks[i].id==id)
-        //     {
-        //         index=i;
-        //         tasks.splice(index,1);
-        //         break;
-        //     }
-        // }
-        // console.log(tasks);
-        // setEntries(tasks);
         console.log(id);
 
         let url = 'https://todobackend-api.herokuapp.com/add-task';
@@ -238,63 +144,8 @@ const App = () => {
         
         });
         notify();
-       
-        // let tasks=localStorage.getItem('tasks') ? JSON.parse(localStorage.getItem('tasks')||'{}') : [];
-        // //Crossicon is working by refreshing the page or addding new stylesheet but by clicking on cross icon its value from local storage gets deleted
-        // entries=task;
-       
-        // console.log("sadfjab");
-        // for(let i=0;i<task.length;i++)
-        // {
-        //    if(tasks[i].id===entry.id){'Accept': 'application/json'
-        //         index=i;
-        //         tasks.splice(index,1);
-        //         break;
-        //    }
-        // }
-       // if(index === undefined) return 
-    //    url = '/add-task';
-    //     fetch(url).then(res=>res.json()).then(data=>{
-    //         setTask(data);
-    //         setEntries(data);
-    //     });
-    //    setTask(tasks);
-    //    if(checkit==true)
-    //    {
-    //     setCheckIt(false);
-    //     setPrevCheckIt(true);
-    //    }
-    //    else{
-    //     setCheckIt(true);
-    //     setPrevCheckIt(false);
-    //    }
-        // localStorage.setItem('tasks',JSON.stringify(tasks));
-        //  getTaskEntries();
-        //  url = '/add-task';
-        // fetch(url).then(res=>res.json()).then(data=>{
-        //     if(entries.length==1)
-        //     {
-        //         setEntries([]);
-        //         setTask([]);
-        //         console.log('hullu')
-        //     }
-        //     else{
-        //         setEntries(data);
-        //         setTask(data);
-        //     }
-            
-        // });   
-            // closeEntrySheet();
     }
 
-    
-    // let entri=getTaskEntries();
-    // let promise=Promise.resolve(getTaskEntries());
-    // const entries=promise.then(function(val){
-    //     console.log(val);
-    //     return val;
-    // })
-    //  console.log(entries);
     const [task,setTask]=React.useState(entries);
     React.useEffect(()=>{
         let url = 'https://todobackend-api.herokuapp.com/add-task?email='+location.state.email+'';
@@ -317,51 +168,8 @@ const App = () => {
             }
         });
       });
-    //   let entr=[];
-    //  const getEntries=()=>{
-    //     let url = '/add-task';
-    //     fetch(url).then(res=>res.json()).then(data=>{
-    //         //  alert(data);
-    //         if(data!="empty")
-    //         {
-    //             entr=data;
-    //             return entr;
-    //         }
-    //         else{
-    //             return entr;
-    //         }
-    //     });
-    //  } 
-
-    // let styles;
-    // let i=0,hour=0,minutes=0,totaltime=0;
-    // for(i=0;i<entries.length;i = i + 1)
-    // {
-    //     hour = hour + entries[i].hours * 60;
-    //     minutes = minutes + entries[i].minutes * 1;
-    // }
-    // totaltime = hour + minutes;
-    // if( totaltime>0 && totaltime < 240)
-    //  {
-    //      let w=totaltime/480;
-    //     styles={backgroundColor:'red',width:`calc(100%* ${w})`, height: '.5em',borderRadius: '4px'}
-    //  }
-    //  else if(totaltime >= 240 && totaltime < 480) 
-    //  {
-    //     let w=totaltime/480;
-    //      styles={backgroundColor:'orange',width:`calc(100%* ${w})`, height: '.5em',borderRadius: '4px'}
-    //  } 
-    //  else if(totaltime>=480) 
-    //  {
-    //      styles={backgroundColor:'rgb(35,174,24)',width:'100%', height: '.5em',borderRadius: '4px'}
-    //  }
-    //  else 
-    //  {
-    //      styles={backgroundColor:'#a0a4a8', height: '.5em',borderRadius: '4px'}
-    //  }
-     let hght='auto';
     
-
+    let hght='auto';
 
     const notify = () => toast.success('Success', {
         position: "bottom-center",

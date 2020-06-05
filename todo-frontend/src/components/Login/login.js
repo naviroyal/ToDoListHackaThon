@@ -106,11 +106,7 @@ export const Login=()=>{
            }
           
         }); 
-        // if(login==1)
-        //     notify();
-        // else
-        //     notify1();
-        
+       
     }
 
     return (

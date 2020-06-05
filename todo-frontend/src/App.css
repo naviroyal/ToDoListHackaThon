@@ -2,12 +2,7 @@
 
 .app-container {
   padding: 0.5em;
-  /* background: #f4f5f8; */
-  overflow: hidden;
-  /* background-image: url("./assets/back5.jpg");
-  background-size: cover; */
-  
- 
+  overflow: hidden; 
 }
 .app-container .floating-add-entry-btn {
   height: 5em;
@@ -37,23 +32,6 @@ h1 {
   margin: 0.5em 0;
 }
 
-
-
-/* 
-.refresh-btn{
-  float:right;
-  margin:2vh 2vh 0vh 2vh;
-  padding:1vh 1.5vh;
-  font-size: 1em;
-} */
-/* 
-.double-tap{
-  margin: 3vh 2vh 0vh 1vh;
-  font-size: 1.2em;
-  color: #CD4436;
-  font-weight: 400;
-} */
-
 .refresh-btn-container{
   display: flex;
   flex-direction: row;
@@ -75,28 +53,12 @@ h1 {
   margin-top: 1em;
 }
 
-.task-input{
-  /* display: flex;
-  flex-direction: row; */
-  /* margin:4vh 0vh 3vh 0vh;
-  padding:2vh 2.5vh; */
-}
-
 .filter{
   margin-top: 3em;
   font-size: 1.3em;
   margin-right: -1em;
   
 }
-/* 
-.double-refresh-part{
-  display: flex;
-  flex-direction: row;
-} */
-
-
-
-
 
 .toast{
   border-radius: 15px;
@@ -112,22 +74,7 @@ h1 {
   border: 1px solid #2AC56C !important;
   box-shadow: 0px 1px 5px rgba(248, 175, 175, 0.1) !important;
 }
-/*
-.toast-success-container-after {
-  overflow: hidden;
-  position: relative;
-}
 
-.toast-success-container-after::after{
-  top: 0;
-  left: 0;
-  content: '';
-  width: 7px;
-  height: 100%;
-  position: absolute;
-  display: inline-block;
-  background-color: #34A853;
-} */
 
 @media screen and (max-width:513px){
   .filter{

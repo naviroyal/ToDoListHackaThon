@@ -1,7 +1,3 @@
-/**
- * @author: Tejas Upmanyu (@tejasupmanyu)
- * NewEntrySheet Component - Renders action sheet for adding new entry.
- */
 import * as React from 'react';
 import './styles.css';
 import crossIcon from '../../assets/cross-icon.svg';
@@ -15,9 +11,6 @@ import "react-datepicker/dist/react-datepicker.css";
 export const NewEntrySheet= (props) => {
     const [task, setTask] = React.useState(taskTypes[0]);
     const [taskstatus,setTaskStatus]=React.useState(taskStatus[0]);
-
-    // const [hours, setHours] = React.useState('');
-    // const [minutes, setMinutes] = React.useState('');
     const [remarks,setRemarks] = React.useState('');
     const [priority,setPriority]=React.useState('off');
     const [isVisible,setVisible]=React.useState(true);
@@ -51,34 +44,15 @@ export const NewEntrySheet= (props) => {
         console.log(event.target.value);
       };
 
-    // const onHoursChange = (event) => {
-    //     setHours(event.target.value);
-    //     if(event.target.value&&minutes&&remarks)
-    //     {
-    //         setVisible(false);
-    //     }
-            
-    // };
-
-    // const onMinutesChange = (event) => {
-    //     setMinutes(event.target.value);
-    //     if(event.target.value&&hours&&remarks)
-    //     {
-    //         setVisible(false);
-    //     }
-    // };
-
     const onRemarksChange = (event)=>{
         setRemarks(event.target.value);
         if(event.target.value)
         {
             setVisible(false);
-            //   setid(id + 1);
         }
     }
 
     const onAddEntry = () => {
-        //  setid(Math.floor( Math.random() * 1000000));
         const entry = { id ,task,taskstatus,priority,dueDate,remarks };
         props.onAdd(entry);
     };
@@ -110,33 +84,6 @@ export const NewEntrySheet= (props) => {
                             Due Date
                             <input type="datetime-local" onChange={handleChange}
                                 className="date-input" ></input>
-                            {/* <DatePicker
-                                selected={dueDate}
-                                onChange={handleChange}
-                                className="date-input"
-                            /> */}
-                            {/* <div className="time-input-fields">
-                                <div>
-                                    <input
-                                        type="number"
-                                        placeholder="hours"
-                                        className="hour-input"
-                                        onChange={onHoursChange}
-                                        value={hours}
-                                    />
-                                    <span className="time-indicator">h</span>
-                                </div>
-                                <div>
-                                    <input
-                                        type="number"
-                                        placeholder="minutes"
-                                        className="minute-input"
-                                        onChange={onMinutesChange}
-                                        value={minutes}
-                                    />
-                                    <span className="time-indicator">m</span>
-                                </div>
-                            </div> */}
                         </label>
                     </div>
                     <div>
