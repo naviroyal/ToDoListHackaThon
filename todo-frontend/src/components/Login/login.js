@@ -11,7 +11,7 @@ export const Login=()=>{
     const [email,setEmail]=React.useState('');
     const [password,setPassword]=React.useState('');
     const [login,setLogin]=React.useState(true);
-
+    const [app,setApp]=React.useState(false);
     const onEmailChange=(event)=>{
         setEmail(event.target.value);
     }
@@ -94,6 +94,7 @@ export const Login=()=>{
            if(data.success===true)
            {
                setLogin(false);
+               setApp(true);
                console.log(login)
                notify();
            } 
@@ -101,6 +102,9 @@ export const Login=()=>{
            {
                console.log('yead')
                setLogin(true);
+               setApp(false);
+
+
                console.log(login)
                notify1();
            }
@@ -134,13 +138,19 @@ export const Login=()=>{
                         <form >
                             <input type="text" id="login" name="email" placeholder="email" onChange={onEmailChange}/>
                             <input type="password" id="password" name="password" placeholder="password" onChange={onPasswordChange}/>
-                            {!login ? <Link to={{
+                             
+                          { app && <Link to={{
                                             pathname:"/home",
                                             state:{
-                                                email:email
+                                                email:"navi"
                                             }
-                                            }}><input type="submit" value="LogIn" onClick={checkWithDataBase}/></Link>:<Link to="/"><input type="submit" value="LogIn" onClick={checkWithDataBase}/></Link>}
-                        </form>
+                                            }}>
+                                <input type="submit" value="LogIn" onClick={checkWithDataBase}/></Link>
+                           }
+                           {
+                               login && <Link to="/"><input type="submit" value="LogIn" onClick={checkWithDataBase}/></Link>
+                           }
+                       </form>
                         <div id="formFooter">
                         <span style={{color:'grey'}}>Not Registered? </span>
                         <span class="underlineHover" ><Link to="/signup">Create New Account</Link></span>
